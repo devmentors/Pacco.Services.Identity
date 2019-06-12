@@ -8,11 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="Convey" Version="0.0.2-preview" />
-    <PackageReference Include="Convey.CQRS.Commands" Version="0.0.1-preview" />
-    <PackageReference Include="Convey.CQRS.Events" Version="0.0.1-preview" />
-    <PackageReference Include="Convey.CQRS.Queries" Version="0.0.1-preview" />
-    <PackageReference Include="Convey.WebApi" Version="0.0.1-preview" />
-    <PackageReference Include="Convey.WebApi.CQRS" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.Auth" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.CQRS.Commands" Version="0.0.3-preview" />
+    <PackageReference Include="Convey.CQRS.Events" Version="0.0.3-preview" />
+    <PackageReference Include="Convey.CQRS.Queries" Version="0.0.3-preview" />
+    <PackageReference Include="Convey.Discovery.Consul" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.Persistence.MongoDB" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.Persistence.Redis" Version="0.0.1-preview" />
+    <PackageReference Include="Convey.WebApi" Version="0.0.5-preview" />
+    <PackageReference Include="Convey.WebApi.CQRS" Version="0.0.4-preview" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Persistence\Mongo" />
   </ItemGroup>
 
 </Project>
