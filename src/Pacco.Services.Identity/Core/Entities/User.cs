@@ -1,8 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 using Convey.Types;
+using Pacco.Services.Identity.Core.Exceptions;
 
-namespace Pacco.Services.Identity.Core.Domain
+namespace Pacco.Services.Identity.Core.Entities
 {
     public class User : IIdentifiable<Guid>
     {
@@ -14,7 +15,7 @@ namespace Pacco.Services.Identity.Core.Domain
         public Guid Id { get; private set; }
         public string Email { get; private set; }
         public string Role { get; private set; }
-        public string PasswordHash { get; private set; }
+        public string Password { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime UpdatedAt { get; private set; }
 
@@ -22,35 +23,29 @@ namespace Pacco.Services.Identity.Core.Domain
         {
         }
 
-        public User(Guid id, string email, string role)
+        public User(Guid id, string email, string password, string role)
         {
             if (!EmailRegex.IsMatch(email))
             {
-                throw new ConveyException(ErrorCodes.InvalidEmail,
-                    $"Invalid email: '{email}'.");
+                throw new InvalidEmailException(email);
             }
 
-            if (!Domain.Role.IsValid(role))
+            if (string.IsNullOrWhiteSpace(password))
             {
-                throw new ConveyException(ErrorCodes.InvalidRole,
-                    $"Invalid role: '{role}'.");
+                throw new InvalidPasswordException();
+            }
+
+            if (!Entities.Role.IsValid(role))
+            {
+                throw new InvalidRoleException(role);
             }
 
             Id = id;
             Email = email.ToLowerInvariant();
+            Password = password;
             Role = role.ToLowerInvariant();
             CreatedAt = DateTime.UtcNow;
             UpdatedAt = DateTime.UtcNow;
-        }
-
-        public void SetPasswordHash(string passwordHash)
-        {
-            if (string.IsNullOrWhiteSpace(passwordHash))
-            {
-                throw new ConveyException(ErrorCodes.InvalidPassword, "Password can not be empty.");
-            }
-
-            PasswordHash = passwordHash;
         }
     }
 }

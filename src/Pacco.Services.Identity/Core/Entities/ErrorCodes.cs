@@ -1,4 +1,4 @@
-namespace Pacco.Services.Identity.Core.Domain
+namespace Pacco.Services.Identity.Core.Entities
 {
     public class ErrorCodes
     {

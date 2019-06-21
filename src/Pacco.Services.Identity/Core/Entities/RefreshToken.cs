@@ -1,7 +1,7 @@
 using System;
 using Convey.Types;
 
-namespace Pacco.Services.Identity.Core.Domain
+namespace Pacco.Services.Identity.Core.Entities
 {
     public class RefreshToken : IIdentifiable<Guid>
     {

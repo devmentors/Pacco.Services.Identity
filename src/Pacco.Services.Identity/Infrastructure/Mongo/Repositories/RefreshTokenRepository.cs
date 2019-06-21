@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Convey.Persistence.MongoDB;
-using Pacco.Services.Identity.Core.Domain;
+using Pacco.Services.Identity.Core.Entities;
 using Pacco.Services.Identity.Core.Repositories;
 
-namespace Pacco.Services.Identity.Infrastructure.Persistence.Mongo.Repositories
+namespace Pacco.Services.Identity.Infrastructure.Mongo.Repositories
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
