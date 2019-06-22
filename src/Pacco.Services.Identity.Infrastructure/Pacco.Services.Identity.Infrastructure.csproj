@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp2.2</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Convey" Version="0.0.*" />
+        <PackageReference Include="Convey.Auth" Version="0.0.*" />
+        <PackageReference Include="Convey.CQRS.Queries" Version="0.0.*" />
+        <PackageReference Include="Convey.Persistence.MongoDB" Version="0.0.*" />
+        <PackageReference Include="Convey.MessageBrokers" Version="0.0.*" />
+        <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.0.*" />
+        <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.0.*" />
+        <PackageReference Include="Convey.WebApi.CQRS" Version="0.0.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Pacco.Services.Identity.Application\Pacco.Services.Identity.Application.csproj" />
+    </ItemGroup>
+
+</Project>
