@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Convey;
+using Convey.Logging;
 using Convey.WebApi;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -48,8 +49,8 @@ namespace Pacco.Services.Identity.Api
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
                             await ctx.Response.NoContent();
-                        })
-                    ))
+                        })))
+                .UseLogging()
                 .Build()
                 .RunAsync();
     }

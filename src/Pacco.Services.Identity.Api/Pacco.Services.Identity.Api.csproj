@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Convey" Version="0.0.*" />
+    <PackageReference Include="Convey.Logging" Version="0.0.*" />
     <PackageReference Include="Convey.WebApi" Version="0.0.*" />
     <PackageReference Include="Convey.WebApi.CQRS" Version="0.0.*" />
   </ItemGroup>
