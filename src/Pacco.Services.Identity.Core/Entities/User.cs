@@ -3,17 +3,12 @@ using Pacco.Services.Identity.Core.Exceptions;
 
 namespace Pacco.Services.Identity.Core.Entities
 {
-    public class User
+    public class User : AggregateRoot
     {
-        public AggregateId Id { get; private set; }
         public string Email { get; private set; }
         public string Role { get; private set; }
         public string Password { get; private set; }
         public DateTime CreatedAt { get; private set; }
-
-        protected User()
-        {
-        }
 
         public User(Guid id, string email, string password, string role, DateTime createdAt)
         {

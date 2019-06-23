@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Convey;
 using Convey.Auth;
 using Convey.CQRS.Commands;
@@ -7,7 +8,10 @@ using Convey.CQRS.Queries;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Persistence.MongoDB;
 using Convey.WebApi.CQRS;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Pacco.Services.Identity.Application;
@@ -51,6 +55,18 @@ namespace Pacco.Services.Identity.Infrastructure
                 .UseRabbitMq();
 
             return app;
+        }
+
+        public static async Task<Guid> JwtAuthAsync(this HttpContext context)
+        {
+            var authentication = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
+            if (authentication.Succeeded)
+            {
+                return Guid.Parse(authentication.Principal.Identity.Name);
+            }
+            
+            context.Response.StatusCode = 401;
+            return Guid.Empty;
         }
     }
 }

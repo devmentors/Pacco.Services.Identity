@@ -1,8 +1,9 @@
 using System;
+using Convey.CQRS.Commands;
 
 namespace Pacco.Services.Identity.Application.Commands
 {
-    public class SignUp
+    public class SignUp : ICommand
     {
         public Guid Id { get; }
         public string Email { get; }
