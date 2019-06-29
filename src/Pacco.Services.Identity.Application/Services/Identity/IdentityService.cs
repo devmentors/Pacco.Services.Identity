@@ -74,7 +74,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             var password = _passwordService.Hash(command.Password);
             user = new User(command.Id, command.Email, password, role, DateTime.UtcNow);
             await _userRepository.AddAsync(user);
-            await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Role));
+            await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
         }
     }
 }

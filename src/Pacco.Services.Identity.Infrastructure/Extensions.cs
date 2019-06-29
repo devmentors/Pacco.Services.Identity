@@ -5,6 +5,9 @@ using Convey.Auth;
 using Convey.CQRS.Commands;
 using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
+using Convey.Discovery.Consul;
+using Convey.HTTP;
+using Convey.LoadBalancing.Fabio;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Persistence.MongoDB;
 using Convey.WebApi.CQRS;
@@ -41,6 +44,9 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddCommandHandlers()
                 .AddEventHandlers()
                 .AddQueryHandlers()
+                .AddHttpClient()
+                .AddConsul()
+                .AddFabio()
                 .AddRabbitMq()
                 .AddMongo()
                 .AddMongoRepository<UserDocument, Guid>("Users");
