@@ -3,6 +3,7 @@ using Convey.CQRS.Commands;
 
 namespace Pacco.Services.Identity.Application.Commands
 {
+    [Contract]
     public class SignUp : ICommand
     {
         public Guid Id { get; }

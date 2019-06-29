@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers;
-using Pacco.Services.Identity.Application;
 using Pacco.Services.Identity.Application.Services;
 
 namespace Pacco.Services.Identity.Infrastructure.MessageBrokers

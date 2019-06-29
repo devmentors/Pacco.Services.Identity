@@ -10,6 +10,7 @@ using Convey.HTTP;
 using Convey.LoadBalancing.Fabio;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Persistence.MongoDB;
+using Convey.WebApi;
 using Convey.WebApi.CQRS;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,7 +55,10 @@ namespace Pacco.Services.Identity.Infrastructure
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         {
-            app.UseInitializers()
+            app.UseErrorHandler()
+                .UsePublicContracts<ContractAttribute>()
+                .UseInitializers()
+                .UseConsul()
                 .UseMongo()
                 .UseAuthentication()
                 .UsePublicContracts(false)

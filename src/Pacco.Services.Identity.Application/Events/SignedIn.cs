@@ -3,6 +3,7 @@ using Convey.CQRS.Events;
 
 namespace Pacco.Services.Identity.Application.Events
 {
+    [Contract]
     public class SignedIn : IEvent
     {
         public Guid Id { get; }

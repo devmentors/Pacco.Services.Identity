@@ -2,6 +2,7 @@ using Convey.CQRS.Commands;
 
 namespace Pacco.Services.Identity.Application.Commands
 {
+    [Contract]
     public class SignIn : ICommand
     {
         public string Email { get; set; }

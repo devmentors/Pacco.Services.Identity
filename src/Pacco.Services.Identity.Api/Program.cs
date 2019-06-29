@@ -24,7 +24,6 @@ namespace Pacco.Services.Identity.Api
                     .AddInfrastructure()
                     .Build())
                 .Configure(app => app
-                    .UseErrorHandler()
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync("Welcome to Pacco Identity Service!"))
