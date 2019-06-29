@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:5005"
+      "applicationUrl": "http://localhost:5004"
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
     "Pacco.Services.Identity": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:5005",
+      "applicationUrl": "http://localhost:5004",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "local"
       }
