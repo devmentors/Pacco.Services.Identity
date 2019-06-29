@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Events;
+using Pacco.Services.Identity.Application.Events.Rejected;
 using Pacco.Services.Identity.Core.Entities;
 using Pacco.Services.Identity.Core.Exceptions;
 using Pacco.Services.Identity.Core.Repositories;
@@ -42,13 +43,17 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
-                throw new InvalidCredentialsException();
+                var exception = new InvalidCredentialsException(command.Email);
+                await _messageBroker.PublishAsync(new SignInRejected(command.Email, exception.Message, exception.Code));
+                throw exception;
             }
 
             var user = await _userRepository.GetAsync(command.Email);
             if (user is null || !_passwordService.IsValid(user.Password, command.Password))
             {
-                throw new InvalidCredentialsException();
+                var exception = new InvalidCredentialsException(command.Email);
+                await _messageBroker.PublishAsync(new SignInRejected(command.Email, exception.Message, exception.Code));
+                throw exception;
             }
 
             var token = _jwtProvider.Create(user.Id, user.Role);
@@ -67,7 +72,9 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             var user = await _userRepository.GetAsync(command.Email);
             if (!(user is null))
             {
-                throw new EmailInUseException(command.Email);
+                var exception = new EmailInUseException(command.Email);
+                await _messageBroker.PublishAsync(new SignUpRejected(command.Email, exception.Message, exception.Code));
+                throw exception;
             }
 
             var role = string.IsNullOrWhiteSpace(command.Role) ? "user" : command.Role.ToLowerInvariant();
