@@ -47,7 +47,7 @@ namespace Pacco.Services.Identity.Api
                         .Post<SignUp>("sign-up", async (cmd, ctx) =>
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
-                            await ctx.Response.NoContent();
+                            await ctx.Response.Created("identity/me");
                         })))
                 .UseLogging()
                 .Build()
