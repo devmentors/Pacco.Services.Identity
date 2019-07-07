@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>Pacco.Services.Identity</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
