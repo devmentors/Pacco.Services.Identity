@@ -8,6 +8,7 @@ using Convey.CQRS.Queries;
 using Convey.Discovery.Consul;
 using Convey.HTTP;
 using Convey.LoadBalancing.Fabio;
+using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Persistence.MongoDB;
 using Convey.WebApi;
@@ -19,6 +20,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Pacco.Services.Identity.Application;
+using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.Services;
 using Pacco.Services.Identity.Application.Services.Identity;
 using Pacco.Services.Identity.Core.Repositories;
@@ -41,10 +43,10 @@ namespace Pacco.Services.Identity.Infrastructure
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
 
-            return builder.AddJwt()
-                .AddCommandHandlers()
-                .AddEventHandlers()
+            return builder
                 .AddQueryHandlers()
+                .AddInMemoryQueryDispatcher()
+                .AddJwt()
                 .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
@@ -61,13 +63,13 @@ namespace Pacco.Services.Identity.Infrastructure
                 .UseConsul()
                 .UseMongo()
                 .UseAuthentication()
-                .UsePublicContracts(false)
-                .UseRabbitMq();
+                .UseRabbitMq()
+                .SubscribeCommand<SignUp>();
 
             return app;
         }
 
-        public static async Task<Guid> JwtAuthAsync(this HttpContext context)
+        public static async Task<Guid> AuthenticateUsingJwtAsync(this HttpContext context)
         {
             var authentication = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
             if (authentication.Succeeded)

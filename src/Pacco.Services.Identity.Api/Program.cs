@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Convey;
 using Convey.Logging;
 using Convey.WebApi;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Pacco.Services.Identity.Application;
 using Pacco.Services.Identity.Application.Commands;
+using Pacco.Services.Identity.Application.Queries;
 using Pacco.Services.Identity.Application.Services;
 using Pacco.Services.Identity.Infrastructure;
 
@@ -27,17 +29,11 @@ namespace Pacco.Services.Identity.Api
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync("Welcome to Pacco Identity Service!"))
+                        .Get<GetUser>("users/{id}", (query, ctx) => GetUserAsync(query.Id, ctx))
                         .Get("me", async ctx =>
                         {
-                            var userId = await ctx.JwtAuthAsync();
-                            var user = await ctx.RequestServices.GetService<IIdentityService>().GetAsync(userId);
-                            if (user is null)
-                            {
-                                ctx.Response.StatusCode = 404;
-                                return;
-                            }
-
-                            ctx.Response.WriteJson(user);
+                            var userId = await ctx.AuthenticateUsingJwtAsync();
+                            await GetUserAsync(userId, ctx);
                         })
                         .Post<SignIn>("sign-in", async (cmd, ctx) =>
                         {
@@ -52,5 +48,17 @@ namespace Pacco.Services.Identity.Api
                 .UseLogging()
                 .Build()
                 .RunAsync();
+
+        private static async Task GetUserAsync(Guid id, HttpContext context)
+        {
+            var user = await context.RequestServices.GetService<IIdentityService>().GetAsync(id);
+            if (user is null)
+            {
+                context.Response.StatusCode = 404;
+                return;
+            }
+
+            context.Response.WriteJson(user);
+        }
     }
 }
