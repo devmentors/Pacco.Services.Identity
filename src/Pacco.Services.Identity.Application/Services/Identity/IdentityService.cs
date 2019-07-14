@@ -1,7 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Convey.MessageBrokers;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Events;

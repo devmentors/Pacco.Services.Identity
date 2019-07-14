@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Convey;
+using Convey.Configurations.Vault;
 using Convey.Logging;
+using Convey.Types;
 using Convey.WebApi;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +31,7 @@ namespace Pacco.Services.Identity.Api
                 .Configure(app => app
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
-                        .Get("", ctx => ctx.Response.WriteAsync("Welcome to Pacco Identity Service!"))
+                        .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
                         .Get<GetUser>("users/{id}", (query, ctx) => GetUserAsync(query.Id, ctx))
                         .Get("me", async ctx =>
                         {
@@ -47,6 +49,7 @@ namespace Pacco.Services.Identity.Api
                             await ctx.Response.Created("identity/me");
                         })))
                 .UseLogging()
+                .UseVault()
                 .Build()
                 .RunAsync();
 

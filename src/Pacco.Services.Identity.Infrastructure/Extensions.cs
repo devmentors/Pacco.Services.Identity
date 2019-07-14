@@ -2,9 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Convey;
 using Convey.Auth;
-using Convey.Configurations.Vault;
-using Convey.CQRS.Commands;
-using Convey.CQRS.Events;
 using Convey.CQRS.Queries;
 using Convey.Discovery.Consul;
 using Convey.HTTP;
@@ -58,14 +55,12 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddMongo()
                 .AddMetrics()
                 .AddJaeger()
-                .AddVault()
                 .AddMongoRepository<UserDocument, Guid>("Users");
         }
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         {
             app.UseErrorHandler()
-                .UseVault()
                 .UseJaeger()
                 .UseMongo()
                 .UseInitializers()
