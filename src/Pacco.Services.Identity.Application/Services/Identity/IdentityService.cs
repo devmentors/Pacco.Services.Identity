@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Convey.MessageBrokers;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Events;
@@ -22,14 +23,16 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
         private readonly IMessageBroker _messageBroker;
+        private readonly ICorrelationContextAccessor _contextAccessor;
 
         public IdentityService(IUserRepository userRepository, IPasswordService passwordService,
-            IJwtProvider jwtProvider, IMessageBroker messageBroker)
+            IJwtProvider jwtProvider, IMessageBroker messageBroker, ICorrelationContextAccessor contextAccessor)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtProvider = jwtProvider;
             _messageBroker = messageBroker;
+            _contextAccessor = contextAccessor;
         }
 
         public async Task<UserDto> GetAsync(Guid id)
@@ -41,6 +44,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
 
         public async Task<JwtDto> SignInAsync(SignIn command)
         {
+            _contextAccessor.CorrelationContext = CorrelationContext.FromId(Guid.NewGuid());
             if (!EmailRegex.IsMatch(command.Email))
             {
                 var exception = new InvalidCredentialsException(command.Email);
@@ -64,6 +68,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
 
         public async Task SignUpAsync(SignUp command)
         {
+            _contextAccessor.CorrelationContext = CorrelationContext.FromId(Guid.NewGuid());
             if (!EmailRegex.IsMatch(command.Email))
             {
                 throw new InvalidEmailException(command.Email);
