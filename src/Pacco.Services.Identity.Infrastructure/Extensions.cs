@@ -62,8 +62,8 @@ namespace Pacco.Services.Identity.Infrastructure
         {
             app.UseErrorHandler()
                 .UseJaeger()
-                .UseMongo()
                 .UseInitializers()
+                .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
                 .UseConsul()
                 .UseMetrics()
