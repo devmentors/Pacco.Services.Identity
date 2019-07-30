@@ -19,7 +19,7 @@ namespace Pacco.Services.Identity.Infrastructure.Mongo.Queries.Handlers
         
         public async Task<UserDto> HandleAsync(GetUser query)
         {
-            var user = await _userRepository.GetAsync(query.Id);
+            var user = await _userRepository.GetAsync(query.UserId);
 
             return user?.AsDto();
         }

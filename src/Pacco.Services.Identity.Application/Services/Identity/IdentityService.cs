@@ -79,7 +79,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
 
             var role = string.IsNullOrWhiteSpace(command.Role) ? "user" : command.Role.ToLowerInvariant();
             var password = _passwordService.Hash(command.Password);
-            user = new User(command.Id, command.Email, password, role, DateTime.UtcNow);
+            user = new User(command.UserId, command.Email, password, role, DateTime.UtcNow);
             await _userRepository.AddAsync(user);
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
         }

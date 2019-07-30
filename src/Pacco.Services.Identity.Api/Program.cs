@@ -32,7 +32,7 @@ namespace Pacco.Services.Identity.Api
                     .UseInfrastructure()
                     .UseEndpoints(endpoints => endpoints
                         .Get("", ctx => ctx.Response.WriteAsync(ctx.RequestServices.GetService<AppOptions>().Name))
-                        .Get<GetUser>("users/{id}", (query, ctx) => GetUserAsync(query.Id, ctx))
+                        .Get<GetUser>("users/{userId}", (query, ctx) => GetUserAsync(query.UserId, ctx))
                         .Get("me", async ctx =>
                         {
                             var userId = await ctx.AuthenticateUsingJwtAsync();
