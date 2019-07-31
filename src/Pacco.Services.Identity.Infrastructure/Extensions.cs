@@ -26,6 +26,7 @@ using Pacco.Services.Identity.Application.Services;
 using Pacco.Services.Identity.Application.Services.Identity;
 using Pacco.Services.Identity.Core.Repositories;
 using Pacco.Services.Identity.Infrastructure.Auth;
+using Pacco.Services.Identity.Infrastructure.Contexts;
 using Pacco.Services.Identity.Infrastructure.MessageBrokers;
 using Pacco.Services.Identity.Infrastructure.Mongo;
 using Pacco.Services.Identity.Infrastructure.Mongo.Documents;
@@ -43,6 +44,8 @@ namespace Pacco.Services.Identity.Infrastructure
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
+            builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
+            builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
 
             return builder
                 .AddQueryHandlers()

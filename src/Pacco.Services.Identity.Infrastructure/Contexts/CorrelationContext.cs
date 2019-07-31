@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Convey.MessageBrokers;
 
-namespace Pacco.Services.Identity.Infrastructure
+namespace Pacco.Services.Identity.Infrastructure.Contexts
 {
     public class CorrelationContext : ICorrelationContext
     {
