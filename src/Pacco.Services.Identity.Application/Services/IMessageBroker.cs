@@ -5,6 +5,6 @@ namespace Pacco.Services.Identity.Application.Services
 {
     public interface IMessageBroker
     {
-        Task PublishAsync<T>(T @event) where T : class, IEvent;
+        Task PublishAsync(params IEvent[] events);
     }
 }

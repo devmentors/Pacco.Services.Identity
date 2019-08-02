@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Convey;
 using Convey.Auth;
@@ -20,6 +21,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Pacco.Services.Identity.Application;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.Services;
@@ -27,10 +29,10 @@ using Pacco.Services.Identity.Application.Services.Identity;
 using Pacco.Services.Identity.Core.Repositories;
 using Pacco.Services.Identity.Infrastructure.Auth;
 using Pacco.Services.Identity.Infrastructure.Contexts;
-using Pacco.Services.Identity.Infrastructure.MessageBrokers;
 using Pacco.Services.Identity.Infrastructure.Mongo;
 using Pacco.Services.Identity.Infrastructure.Mongo.Documents;
 using Pacco.Services.Identity.Infrastructure.Mongo.Repositories;
+using Pacco.Services.Identity.Infrastructure.Services;
 
 namespace Pacco.Services.Identity.Infrastructure
 {
@@ -39,11 +41,11 @@ namespace Pacco.Services.Identity.Infrastructure
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
-            builder.Services.AddSingleton<IIdentityService, IdentityService>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
+            builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
+            builder.Services.AddTransient<IIdentityService, IdentityService>();
             builder.Services.AddTransient<IMessageBroker, MessageBroker>();
             builder.Services.AddTransient<IUserRepository, UserRepository>();
-            builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
             builder.Services.AddTransient<IAppContextFactory, AppContextFactory>();
             builder.Services.AddTransient(ctx => ctx.GetRequiredService<IAppContextFactory>().Create());
 
@@ -84,9 +86,14 @@ namespace Pacco.Services.Identity.Infrastructure
             {
                 return Guid.Parse(authentication.Principal.Identity.Name);
             }
-            
+
             context.Response.StatusCode = 401;
             return Guid.Empty;
         }
+
+        internal static CorrelationContext GetCorrelationContext(this IHttpContextAccessor accessor)
+            => accessor.HttpContext.Request.Headers.TryGetValue("Correlation-Context", out var json)
+                ? JsonConvert.DeserializeObject<CorrelationContext>(json.FirstOrDefault())
+                : null;
     }
 }

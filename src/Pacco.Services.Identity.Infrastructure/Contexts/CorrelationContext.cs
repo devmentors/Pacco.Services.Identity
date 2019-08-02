@@ -4,7 +4,7 @@ using Convey.MessageBrokers;
 
 namespace Pacco.Services.Identity.Infrastructure.Contexts
 {
-    public class CorrelationContext : ICorrelationContext
+    internal class CorrelationContext : ICorrelationContext
     {
         public string CorrelationId { get; set; }
         public string SpanContext { get; set; }
