@@ -6,7 +6,6 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
 {
     internal sealed class AppContextFactory : IAppContextFactory
     {
-        private static readonly AppContext EmptyContext = new AppContext();
         private readonly ICorrelationContextAccessor _contextAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -25,7 +24,7 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
 
             var context = _httpContextAccessor.GetCorrelationContext();
             
-            return context is null ? EmptyContext : new AppContext(context);
+            return context is null ? AppContext.Empty : new AppContext(context);
         }
     }
 }

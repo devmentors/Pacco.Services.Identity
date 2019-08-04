@@ -11,6 +11,5 @@ case "$TRAVIS_BRANCH" in
 esac
 
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-docker build -t pacco.services.identity:$DOCKER_TAG .
-docker tag pacco.services.identity:$DOCKER_TAG $DOCKER_USERNAME/pacco.services.identity:$DOCKER_TAG
+docker build -t $DOCKER_TAG $DOCKER_USERNAME/pacco.services.identity:$DOCKER_TAG .
 docker push $DOCKER_USERNAME/pacco.services.identity:$DOCKER_TAG

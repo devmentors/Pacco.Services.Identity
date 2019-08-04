@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Pacco.Services.Identity.Application;
 
@@ -5,9 +6,10 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
 {
     internal class IdentityContext : IIdentityContext
     {
-        public string Id { get; }
+        public Guid Id { get; }
         public string Role { get; }
         public bool IsAuthenticated { get; }
+        public bool IsAdmin { get; }
         public IDictionary<string, string> Claims { get; }
 
         internal IdentityContext()
@@ -21,10 +23,13 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
 
         internal IdentityContext(string id, string role, bool isAuthenticated, IDictionary<string, string> claims)
         {
-            Id = id;
+            Id = Guid.TryParse(id, out var userId) ? userId : Guid.Empty;
             Role = role;
             IsAuthenticated = isAuthenticated;
+            IsAdmin = role == "admin";
             Claims = claims;
         }
+        
+        internal static IIdentityContext Empty => new IdentityContext();
     }
 }

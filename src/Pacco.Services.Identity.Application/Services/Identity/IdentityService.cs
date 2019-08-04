@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Events;
@@ -22,14 +23,16 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
         private readonly IMessageBroker _messageBroker;
+        private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(IUserRepository userRepository, IPasswordService passwordService,
-            IJwtProvider jwtProvider, IMessageBroker messageBroker)
+            IJwtProvider jwtProvider, IMessageBroker messageBroker, ILogger<IdentityService> logger)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtProvider = jwtProvider;
             _messageBroker = messageBroker;
+            _logger = logger;
         }
 
         public async Task<UserDto> GetAsync(Guid id)
@@ -43,6 +46,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
+                _logger.LogWarning($"Invalid email address: {command.Email}.");
                 var exception = new InvalidCredentialsException(command.Email);
                 await _messageBroker.PublishAsync(new SignInRejected(command.Email, exception.Message, exception.Code));
                 throw exception;
@@ -58,6 +62,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
 
             var token = _jwtProvider.Create(user.Id, user.Role);
             await _messageBroker.PublishAsync(new SignedIn(user.Id, user.Role));
+            _logger.LogInformation($"User with id: {user.Id} has been authenticated.");
 
             return token;
         }
@@ -66,6 +71,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
+                _logger.LogWarning($"Invalid email address: {command.Email}.");
                 throw new InvalidEmailException(command.Email);
             }
 
@@ -82,6 +88,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             user = new User(command.UserId, command.Email, password, role, DateTime.UtcNow);
             await _userRepository.AddAsync(user);
             await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
+            _logger.LogInformation($"Created an account for the user with id: {user.Id}.");
         }
     }
 }
