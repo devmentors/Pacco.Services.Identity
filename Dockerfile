@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /app
 COPY . .
 RUN dotnet publish src/Pacco.Services.Identity.Api -c release -o out
