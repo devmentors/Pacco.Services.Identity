@@ -12,7 +12,8 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
         {
         }
 
-        internal AppContext(CorrelationContext context) : this(context.CorrelationId, new IdentityContext(context.User))
+        internal AppContext(CorrelationContext context) : this(context.CorrelationId,
+            context.User is null ? IdentityContext.Empty : new IdentityContext(context.User))
         {
         }
 
