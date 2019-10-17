@@ -13,13 +13,13 @@
         <PackageReference Include="Convey.LoadBalancing.Fabio" Version="0.0.*" />
         <PackageReference Include="Convey.HTTP" Version="0.0.*" />
         <PackageReference Include="Convey.Logging" Version="0.0.*" />
-        <PackageReference Include="Convey.MessageBrokers" Version="0.0.*" />
-        <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.0.*" />
-        <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.0.*" />
+        <PackageReference Include="Convey.MessageBrokers" Version="0.0.16" />
+        <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.0.13" />
+        <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.0.49" />
         <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.0.*" />
         <PackageReference Include="Convey.Persistence.MongoDB" Version="0.0.*" />
         <PackageReference Include="Convey.Tracing.Jaeger" Version="0.0.*" />
-        <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.0.*" />
+        <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.0.13" />
         <PackageReference Include="Convey.WebApi.CQRS" Version="0.0.*" />
         <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     </ItemGroup>
