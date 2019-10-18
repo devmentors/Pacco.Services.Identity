@@ -34,8 +34,8 @@ namespace Pacco.Services.Identity.Infrastructure.Services
                     continue;
                 }
 
-                await _busPublisher.PublishAsync(@event, _contextAccessor.CorrelationContext ??
-                                                         _httpContextAccessor.GetCorrelationContext());
+                await _busPublisher.PublishAsync(@event, context: _contextAccessor.CorrelationContext ??
+                                                                  _httpContextAccessor.GetCorrelationContext());
             }
         }
     }

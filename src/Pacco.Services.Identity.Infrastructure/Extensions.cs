@@ -56,7 +56,7 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
-                .AddRabbitMq<CorrelationContext>(plugins: p => p.RegisterJaeger())
+                .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMongo()
                 .AddMetrics()
                 .AddJaeger()

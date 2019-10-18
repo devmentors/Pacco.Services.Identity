@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netcoreapp3.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Convey" Version="0.0.*" />
-        <PackageReference Include="Convey.CQRS.Commands" Version="0.0.*" />
-        <PackageReference Include="Convey.CQRS.Events" Version="0.0.*" />
-        <PackageReference Include="Convey.CQRS.Queries" Version="0.0.*" />
-        <PackageReference Include="Convey.MessageBrokers" Version="0.0.16" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+        <PackageReference Include="Convey" Version="0.3.*" />
+        <PackageReference Include="Convey.CQRS.Commands" Version="0.3.*" />
+        <PackageReference Include="Convey.CQRS.Events" Version="0.3.*" />
+        <PackageReference Include="Convey.CQRS.Queries" Version="0.3.*" />
+        <PackageReference Include="Convey.MessageBrokers" Version="0.3.*" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.0" />
     </ItemGroup>
 
     <ItemGroup>
