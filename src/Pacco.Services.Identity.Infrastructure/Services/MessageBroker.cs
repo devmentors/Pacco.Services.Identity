@@ -43,7 +43,8 @@ namespace Pacco.Services.Identity.Infrastructure.Services
                                      _httpContextAccessor.GetCorrelationContext();
 
             var spanContext = string.Empty;
-            if (_messagePropertiesAccessor.MessageProperties.Headers.TryGetValue(_spanContextHeader, out var span))
+            var messageProperties = _messagePropertiesAccessor.MessageProperties;
+            if (!(messageProperties is null) && messageProperties.Headers.TryGetValue(_spanContextHeader, out var span))
             {
                 spanContext = span.ToString();
             }
