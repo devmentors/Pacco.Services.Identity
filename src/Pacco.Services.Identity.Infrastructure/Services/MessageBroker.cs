@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers;
@@ -42,11 +43,14 @@ namespace Pacco.Services.Identity.Infrastructure.Services
             var correlationContext = _contextAccessor.CorrelationContext ??
                                      _httpContextAccessor.GetCorrelationContext();
 
-            var spanContext = string.Empty;
             var messageProperties = _messagePropertiesAccessor.MessageProperties;
-            if (!(messageProperties is null) && messageProperties.Headers.TryGetValue(_spanContextHeader, out var span))
+            var correlationId = _messagePropertiesAccessor.MessageProperties?.CorrelationId;
+            var spanContext = string.Empty;
+            
+            if (!(messageProperties is null) && messageProperties.Headers.TryGetValue(_spanContextHeader, out var span)
+                                             && span is byte[] spanBytes)
             {
-                spanContext = span.ToString();
+                spanContext = Encoding.UTF8.GetString(spanBytes);
             }
 
             if (string.IsNullOrWhiteSpace(spanContext))
@@ -61,7 +65,8 @@ namespace Pacco.Services.Identity.Infrastructure.Services
                     continue;
                 }
 
-                await _busPublisher.PublishAsync(@event, spanContext: spanContext, messageContext: correlationContext);
+                await _busPublisher.PublishAsync(@event, correlationId: correlationId, spanContext: spanContext,
+                    messageContext: correlationContext);
             }
         }
     }
