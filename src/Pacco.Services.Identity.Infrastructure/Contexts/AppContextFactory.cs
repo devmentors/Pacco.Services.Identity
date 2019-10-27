@@ -1,5 +1,6 @@
 using Convey.MessageBrokers;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Pacco.Services.Identity.Application;
 
 namespace Pacco.Services.Identity.Infrastructure.Contexts
@@ -19,7 +20,11 @@ namespace Pacco.Services.Identity.Infrastructure.Contexts
         {
             if (!(_contextAccessor.CorrelationContext is null))
             {
-                return new AppContext(_contextAccessor.CorrelationContext as CorrelationContext);
+                var payload = JsonConvert.SerializeObject(_contextAccessor.CorrelationContext);
+
+                return string.IsNullOrWhiteSpace(payload)
+                    ? AppContext.Empty
+                    : new AppContext(JsonConvert.DeserializeObject<CorrelationContext>(payload));
             }
 
             var context = _httpContextAccessor.GetCorrelationContext();
