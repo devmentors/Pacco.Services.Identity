@@ -11,6 +11,7 @@ using Convey.MessageBrokers.CQRS;
 using Convey.MessageBrokers.RabbitMQ;
 using Convey.Metrics.AppMetrics;
 using Convey.Persistence.MongoDB;
+using Convey.Persistence.Redis;
 using Convey.Tracing.Jaeger;
 using Convey.Tracing.Jaeger.RabbitMQ;
 using Convey.WebApi;
@@ -41,7 +42,6 @@ namespace Pacco.Services.Identity.Infrastructure
     {
         public static IConveyBuilder AddInfrastructure(this IConveyBuilder builder)
         {
-            builder.Services.Configure<KestrelServerOptions>(options => { options.AllowSynchronousIO = true; });
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
             builder.Services.AddSingleton<IPasswordService, PasswordService>();
             builder.Services.AddSingleton<IPasswordHasher<IPasswordService>, PasswordHasher<IPasswordService>>();
@@ -60,6 +60,7 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddFabio()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMongo()
+                .AddRedis()
                 .AddMetrics()
                 .AddJaeger()
                 .AddMongoRepository<UserDocument, Guid>("Users");
@@ -72,7 +73,6 @@ namespace Pacco.Services.Identity.Infrastructure
                 .UseInitializers()
                 .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
-                .UseConsul()
                 .UseMetrics()
                 .UseAuthentication()
                 .UseRabbitMq()

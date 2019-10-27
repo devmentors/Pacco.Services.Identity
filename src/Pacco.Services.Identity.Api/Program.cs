@@ -41,7 +41,7 @@ namespace Pacco.Services.Identity.Api
                         .Post<SignIn>("sign-in", async (cmd, ctx) =>
                         {
                             var token = await ctx.RequestServices.GetService<IIdentityService>().SignInAsync(cmd);
-                            ctx.Response.WriteJson(token);
+                            await ctx.Response.WriteJsonAsync(token);
                         })
                         .Post<SignUp>("sign-up", async (cmd, ctx) =>
                         {
@@ -62,7 +62,7 @@ namespace Pacco.Services.Identity.Api
                 return;
             }
 
-            context.Response.WriteJson(user);
+            await context.Response.WriteJsonAsync(user);
         }
     }
 }
