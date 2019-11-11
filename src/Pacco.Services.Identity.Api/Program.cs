@@ -22,7 +22,6 @@ namespace Pacco.Services.Identity.Api
         public static async Task Main(string[] args)
             => await WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services
-                    .AddOpenTracing()
                     .AddConvey()
                     .AddWebApi()
                     .AddApplication()
