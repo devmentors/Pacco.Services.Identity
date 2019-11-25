@@ -23,7 +23,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Pacco.Services.Identity.Application;
@@ -75,7 +74,7 @@ namespace Pacco.Services.Identity.Infrastructure
             app.UseErrorHandler()
                 .UseSwaggerDocs()
                 .UseJaeger()
-                .UseInitializers()
+                .UseConvey()
                 .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
@@ -99,7 +98,7 @@ namespace Pacco.Services.Identity.Infrastructure
         }
 
         internal static CorrelationContext GetCorrelationContext(this IHttpContextAccessor accessor)
-            => accessor.HttpContext.Request.Headers.TryGetValue("Correlation-Context", out var json)
+            => accessor.HttpContext?.Request.Headers.TryGetValue("Correlation-Context", out var json) is true
                 ? JsonConvert.DeserializeObject<CorrelationContext>(json.FirstOrDefault())
                 : null;
     }
