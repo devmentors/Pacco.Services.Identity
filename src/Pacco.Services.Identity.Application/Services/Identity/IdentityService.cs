@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Events;
-using Pacco.Services.Identity.Application.Events.Rejected;
 using Pacco.Services.Identity.Core.Entities;
 using Pacco.Services.Identity.Core.Exceptions;
 using Pacco.Services.Identity.Core.Repositories;
