@@ -46,23 +46,27 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
-                _logger.LogWarning($"Invalid email address: {command.Email}.");
-                var exception = new InvalidCredentialsException(command.Email);
-                await _messageBroker.PublishAsync(new SignInRejected(command.Email, exception.Message, exception.Code));
-                throw exception;
+                _logger.LogError($"Invalid email: {command.Email}");
+                throw new InvalidEmailException(command.Email);
             }
 
             var user = await _userRepository.GetAsync(command.Email);
             if (user is null || !_passwordService.IsValid(user.Password, command.Password))
             {
-                var exception = new InvalidCredentialsException(command.Email);
-                await _messageBroker.PublishAsync(new SignInRejected(command.Email, exception.Message, exception.Code));
-                throw exception;
+                _logger.LogError($"User with email: {command.Email} was not found.");
+                throw new InvalidCredentialsException(command.Email);
+            }
+
+            if (!_passwordService.IsValid(user.Password, command.Password))
+            {
+                _logger.LogError($"Invalid password for user with id: {user.Id.Value}");
+                throw new InvalidCredentialsException(command.Email);
             }
 
             var token = _jwtProvider.Create(user.Id, user.Role);
-            await _messageBroker.PublishAsync(new SignedIn(user.Id, user.Role));
+            
             _logger.LogInformation($"User with id: {user.Id} has been authenticated.");
+            await _messageBroker.PublishAsync(new SignedIn(user.Id, user.Role));
 
             return token;
         }
@@ -71,24 +75,24 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
-                _logger.LogWarning($"Invalid email address: {command.Email}.");
+                _logger.LogError($"Invalid email: {command.Email}");
                 throw new InvalidEmailException(command.Email);
             }
 
             var user = await _userRepository.GetAsync(command.Email);
             if (!(user is null))
             {
-                var exception = new EmailInUseException(command.Email);
-                await _messageBroker.PublishAsync(new SignUpRejected(command.Email, exception.Message, exception.Code));
-                throw exception;
+                _logger.LogError($"Email already in use: {command.Email}");
+                throw new EmailInUseException(command.Email);
             }
 
             var role = string.IsNullOrWhiteSpace(command.Role) ? "user" : command.Role.ToLowerInvariant();
             var password = _passwordService.Hash(command.Password);
             user = new User(command.UserId, command.Email, password, role, DateTime.UtcNow);
             await _userRepository.AddAsync(user);
-            await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
+            
             _logger.LogInformation($"Created an account for the user with id: {user.Id}.");
+            await _messageBroker.PublishAsync(new SignedUp(user.Id, user.Email, user.Role));
         }
     }
 }

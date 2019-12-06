@@ -39,6 +39,7 @@ using Pacco.Services.Identity.Core.Repositories;
 using Pacco.Services.Identity.Infrastructure.Auth;
 using Pacco.Services.Identity.Infrastructure.Contexts;
 using Pacco.Services.Identity.Infrastructure.Decorators;
+using Pacco.Services.Identity.Infrastructure.Exceptions;
 using Pacco.Services.Identity.Infrastructure.Mongo;
 using Pacco.Services.Identity.Infrastructure.Mongo.Documents;
 using Pacco.Services.Identity.Infrastructure.Mongo.Repositories;
@@ -69,6 +70,7 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddHttpClient()
                 .AddConsul()
                 .AddFabio()
+                .AddExceptionToMessageMapper<ExceptionToMessageMapper>()
                 .AddRabbitMq(plugins: p => p.AddJaegerRabbitMqPlugin())
                 .AddMessageInbox()
                 .AddMessageOutbox()
@@ -86,6 +88,7 @@ namespace Pacco.Services.Identity.Infrastructure
                 .UseSwaggerDocs()
                 .UseJaeger()
                 .UseConvey()
+                .UseAccessTokenValidator()
                 .UseMongo()
                 .UsePublicContracts<ContractAttribute>()
                 .UseMetrics()
