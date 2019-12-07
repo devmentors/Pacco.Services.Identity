@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -114,6 +115,22 @@ namespace Pacco.Services.Identity.Infrastructure
             => accessor.HttpContext?.Request.Headers.TryGetValue("Correlation-Context", out var json) is true
                 ? JsonConvert.DeserializeObject<CorrelationContext>(json.FirstOrDefault())
                 : null;
+        
+        internal static IDictionary<string, object> GetHeadersToForward(this IMessageProperties messageProperties)
+        {
+            const string sagaHeader = "Saga";
+            if (messageProperties?.Headers is null || !messageProperties.Headers.TryGetValue(sagaHeader, out var saga))
+            {
+                return null;
+            }
+
+            return saga is null
+                ? null
+                : new Dictionary<string, object>
+                {
+                    [sagaHeader] = saga
+                };
+        }
         
         internal static string GetSpanContext(this IMessageProperties messageProperties, string header)
         {
