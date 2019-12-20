@@ -102,13 +102,8 @@ namespace Pacco.Services.Identity.Infrastructure
         public static async Task<Guid> AuthenticateUsingJwtAsync(this HttpContext context)
         {
             var authentication = await context.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
-            if (authentication.Succeeded)
-            {
-                return Guid.Parse(authentication.Principal.Identity.Name);
-            }
 
-            context.Response.StatusCode = 401;
-            return Guid.Empty;
+            return authentication.Succeeded ? Guid.Parse(authentication.Principal.Identity.Name) : Guid.Empty;
         }
 
         internal static CorrelationContext GetCorrelationContext(this IHttpContextAccessor accessor)

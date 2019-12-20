@@ -1,30 +1,30 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Convey" Version="0.3.*" />
-        <PackageReference Include="Convey.Auth" Version="0.3.*" />
-        <PackageReference Include="Convey.Configurations.Vault" Version="0.3.*" />
-        <PackageReference Include="Convey.CQRS.Queries" Version="0.3.*" />
-        <PackageReference Include="Convey.Discovery.Consul" Version="0.3.*" />
-        <PackageReference Include="Convey.LoadBalancing.Fabio" Version="0.3.*" />
-        <PackageReference Include="Convey.HTTP" Version="0.3.*" />
-        <PackageReference Include="Convey.Logging" Version="0.3.*" />
-        <PackageReference Include="Convey.MessageBrokers" Version="0.3.*" />
-        <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.3.*" />
-        <PackageReference Include="Convey.MessageBrokers.Inbox" Version="0.3.*" />
-        <PackageReference Include="Convey.MessageBrokers.Outbox" Version="0.3.*" />
-        <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.3.*" />
-        <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.3.*" />
-        <PackageReference Include="Convey.Persistence.MongoDB" Version="0.3.*" />
-        <PackageReference Include="Convey.Persistence.Redis" Version="0.3.*" />
-        <PackageReference Include="Convey.Tracing.Jaeger" Version="0.3.*" />
-        <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.3.*" />
-        <PackageReference Include="Convey.WebApi.CQRS" Version="0.3.*" />
-        <PackageReference Include="Convey.WebApi.Swagger" Version="0.3.*" />
+        <PackageReference Include="Convey" Version="0.4.*" />
+        <PackageReference Include="Convey.Auth" Version="0.4.*" />
+        <PackageReference Include="Convey.Configurations.Vault" Version="0.4.*" />
+        <PackageReference Include="Convey.CQRS.Queries" Version="0.4.*" />
+        <PackageReference Include="Convey.Discovery.Consul" Version="0.4.*" />
+        <PackageReference Include="Convey.LoadBalancing.Fabio" Version="0.4.*" />
+        <PackageReference Include="Convey.HTTP" Version="0.4.*" />
+        <PackageReference Include="Convey.Logging" Version="0.4.*" />
+        <PackageReference Include="Convey.MessageBrokers" Version="0.4.*" />
+        <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.4.*" />
+        <PackageReference Include="Convey.MessageBrokers.Inbox" Version="0.4.*" />
+        <PackageReference Include="Convey.MessageBrokers.Outbox" Version="0.4.*" />
+        <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.4.*" />
+        <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.4.*" />
+        <PackageReference Include="Convey.Persistence.MongoDB" Version="0.4.*" />
+        <PackageReference Include="Convey.Persistence.Redis" Version="0.4.*" />
+        <PackageReference Include="Convey.Tracing.Jaeger" Version="0.4.*" />
+        <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.4.*" />
+        <PackageReference Include="Convey.WebApi.CQRS" Version="0.4.*" />
+        <PackageReference Include="Convey.WebApi.Swagger" Version="0.4.*" />
     </ItemGroup>
 
     <ItemGroup>

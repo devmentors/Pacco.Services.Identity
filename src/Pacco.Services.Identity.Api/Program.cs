@@ -35,6 +35,12 @@ namespace Pacco.Services.Identity.Api
                         .Get("me", async ctx =>
                         {
                             var userId = await ctx.AuthenticateUsingJwtAsync();
+                            if (userId == Guid.Empty)
+                            {
+                                ctx.Response.StatusCode = 401;
+                                return;
+                            }
+                            
                             await GetUserAsync(userId, ctx);
                         })
                         .Post<SignIn>("sign-in", async (cmd, ctx) =>
