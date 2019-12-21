@@ -15,7 +15,6 @@
         <PackageReference Include="Convey.Logging" Version="0.4.*" />
         <PackageReference Include="Convey.MessageBrokers" Version="0.4.*" />
         <PackageReference Include="Convey.MessageBrokers.CQRS" Version="0.4.*" />
-        <PackageReference Include="Convey.MessageBrokers.Inbox" Version="0.4.*" />
         <PackageReference Include="Convey.MessageBrokers.Outbox" Version="0.4.*" />
         <PackageReference Include="Convey.MessageBrokers.RabbitMQ" Version="0.4.*" />
         <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.4.*" />

@@ -52,6 +52,7 @@ namespace Pacco.Services.Identity.Infrastructure.Services
             }
 
             var messageProperties = _messagePropertiesAccessor.MessageProperties;
+            var originatedMessageId = messageProperties?.MessageId;
             var correlationId = messageProperties?.CorrelationId;
             var spanContext = messageProperties?.GetSpanContext(_spanContextHeader);
             if (string.IsNullOrWhiteSpace(spanContext))
@@ -74,7 +75,8 @@ namespace Pacco.Services.Identity.Infrastructure.Services
                 _logger.LogTrace($"Publishing integration event: {@event.GetType().Name} [id: '{messageId}'].");
                 if (_outbox.Enabled)
                 {
-                    await _outbox.SendAsync(@event, messageId, correlationId, spanContext, correlationContext, headers);
+                    await _outbox.SendAsync(@event, originatedMessageId, messageId, correlationId, spanContext,
+                        correlationContext, headers);
                     continue;
                 }
 
