@@ -77,7 +77,7 @@ namespace Pacco.Services.Identity.Infrastructure
                 .AddRedis()
                 .AddMetrics()
                 .AddJaeger()
-                .AddMongoRepository<UserDocument, Guid>("Users")
+                .AddMongoRepository<UserDocument, Guid>("users")
                 .AddWebApiSwaggerDocs();
         }
 

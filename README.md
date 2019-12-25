@@ -29,3 +29,9 @@ You can also start the service via Docker, either by building a local Dockerfile
 or using the official one: 
 
 `docker pull devmentors/pacco.services.identity`
+
+**What HTTP requests can be sent to the microservice API?**
+----------------
+
+You can find the list of all HTTP requests in [Pacco.Services.Identity.rest](https://github.com/devmentors/Pacco.Services.Identity/blob/master/Pacco.Services.Identity.rest) file placed in the root folder of the repository.
+This file is compatible with [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) plugin for [Visual Studio Code](https://code.visualstudio.com). 
