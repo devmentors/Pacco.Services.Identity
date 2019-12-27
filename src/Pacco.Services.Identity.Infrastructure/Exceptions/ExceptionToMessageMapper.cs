@@ -1,5 +1,4 @@
 using System;
-using Convey.CQRS.Events;
 using Convey.MessageBrokers.RabbitMQ;
 using Pacco.Services.Identity.Application.Commands;
 using Pacco.Services.Identity.Application.Events.Rejected;
@@ -13,11 +12,11 @@ namespace Pacco.Services.Identity.Infrastructure.Exceptions
             => exception switch
 
             {
-                EmailInUseException ex => (IRejectedEvent) new SignUpRejected(ex.Email, ex.Message, ex.Code),
-                InvalidCredentialsException ex => (IRejectedEvent) new SignInRejected(ex.Email, ex.Message, ex.Code),
+                EmailInUseException ex => new SignUpRejected(ex.Email, ex.Message, ex.Code),
+                InvalidCredentialsException ex => new SignInRejected(ex.Email, ex.Message, ex.Code),
                 InvalidEmailException ex => message switch
                 {
-                    SignIn command => (IRejectedEvent) new SignInRejected(command.Email, ex.Message, ex.Code),
+                    SignIn command => new SignInRejected(command.Email, ex.Message, ex.Code),
                     SignUpRejected command => new SignUpRejected(command.Email, ex.Message, ex.Code),
                     _ => null
                 },

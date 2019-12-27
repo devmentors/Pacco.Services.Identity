@@ -79,7 +79,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             }
 
             var user = await _userRepository.GetAsync(command.Email);
-            if (!(user is null))
+            if (user is {})
             {
                 _logger.LogError($"Email already in use: {command.Email}");
                 throw new EmailInUseException(command.Email);
