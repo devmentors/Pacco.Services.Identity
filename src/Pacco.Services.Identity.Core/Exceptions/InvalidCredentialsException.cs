@@ -1,6 +1,6 @@
 namespace Pacco.Services.Identity.Core.Exceptions
 {
-    public class InvalidCredentialsException : ExceptionBase
+    public class InvalidCredentialsException : DomainException
     {
         public override string Code => "invalid_credentials";
         public string Email { get; }

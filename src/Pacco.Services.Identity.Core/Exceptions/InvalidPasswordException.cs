@@ -1,6 +1,6 @@
 namespace Pacco.Services.Identity.Core.Exceptions
 {
-    public class InvalidPasswordException : ExceptionBase
+    public class InvalidPasswordException : DomainException
     {
         public override string Code => "invalid_password";
 

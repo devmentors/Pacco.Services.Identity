@@ -64,6 +64,7 @@ namespace Pacco.Services.Identity.Infrastructure
             builder.Services.TryDecorate(typeof(IEventHandler<>), typeof(OutboxEventHandlerDecorator<>));
 
             return builder
+                .AddErrorHandler<ExceptionToResponseMapper>()
                 .AddQueryHandlers()
                 .AddInMemoryQueryDispatcher()
                 .AddJwt()

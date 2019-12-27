@@ -1,6 +1,6 @@
 namespace Pacco.Services.Identity.Core.Exceptions
 {
-    public class EmailInUseException : ExceptionBase
+    public class EmailInUseException : DomainException
     {
         public override string Code => "email_in_use";
         public string Email { get; }
