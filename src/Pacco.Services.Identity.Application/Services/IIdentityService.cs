@@ -8,7 +8,7 @@ namespace Pacco.Services.Identity.Application.Services
     public interface IIdentityService
     {
         Task<UserDto> GetAsync(Guid id);
-        Task<JwtDto> SignInAsync(SignIn command);
+        Task<AuthDto> SignInAsync(SignIn command);
         Task SignUpAsync(SignUp command);
     }
 }

@@ -3,7 +3,7 @@ using Pacco.Services.Identity.Core.Entities;
 
 namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
 {
-    public static class Extensions
+    internal static class Extensions
     {
         public static User AsEntity(this UserDocument document)
             => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt);
@@ -25,6 +25,19 @@ namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
                 Email = document.Email,
                 Role = document.Role,
                 CreatedAt = document.CreatedAt
+            };
+
+        public static RefreshToken AsEntity(this RefreshTokenDocument document)
+            => new RefreshToken(document.Id, document.UserId, document.Token, document.CreatedAt, document.RevokedAt);
+        
+        public static RefreshTokenDocument AsDocument(this RefreshToken entity)
+            => new RefreshTokenDocument
+            {
+                Id = entity.Id,
+                UserId = entity.UserId,
+                Token = entity.Token,
+                CreatedAt = entity.CreatedAt,
+                RevokedAt = entity.RevokedAt
             };
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Security.AccessControl;
 using System.Threading.Tasks;
 using Convey;
-using Convey.Configurations.Vault;
+using Convey.Auth;
+using Convey.Secrets.Vault;
 using Convey.Logging;
 using Convey.Types;
 using Convey.WebApi;
@@ -40,7 +42,7 @@ namespace Pacco.Services.Identity.Api
                                 ctx.Response.StatusCode = 401;
                                 return;
                             }
-                            
+
                             await GetUserAsync(userId, ctx);
                         })
                         .Post<SignIn>("sign-in", async (cmd, ctx) =>
@@ -52,7 +54,23 @@ namespace Pacco.Services.Identity.Api
                         {
                             await ctx.RequestServices.GetService<IIdentityService>().SignUpAsync(cmd);
                             await ctx.Response.Created("identity/me");
-                        })))
+                        })
+                        .Post<RevokeAccessToken>("access-tokens/revoke", async (cmd, ctx) =>
+                        {
+                            await ctx.RequestServices.GetService<IAccessTokenService>().DeactivateAsync(cmd.AccessToken);
+                            ctx.Response.StatusCode = 204;
+                        })
+                        .Post<UseRefreshToken>("refresh-tokens/use", async (cmd, ctx) =>
+                        {
+                            var token = await ctx.RequestServices.GetService<IRefreshTokenService>().UseAsync(cmd.RefreshToken);
+                            await ctx.Response.WriteJsonAsync(token);
+                        })
+                        .Post<RevokeRefreshToken>("refresh-tokens/revoke", async (cmd, ctx) =>
+                        {
+                            await ctx.RequestServices.GetService<IRefreshTokenService>().RevokeAsync(cmd.RefreshToken);
+                            ctx.Response.StatusCode = 204;
+                        })
+                    ))
                 .UseLogging()
                 .UseVault()
                 .Build()

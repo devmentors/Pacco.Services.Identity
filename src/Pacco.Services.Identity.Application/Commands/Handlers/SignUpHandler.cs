@@ -5,7 +5,7 @@ using Pacco.Services.Identity.Application.Services;
 namespace Pacco.Services.Identity.Application.Commands.Handlers
 {
     // Simple wrapper
-    public class SignUpHandler : ICommandHandler<SignUp>
+    internal sealed  class SignUpHandler : ICommandHandler<SignUp>
     {
         private readonly IIdentityService _identityService;
 

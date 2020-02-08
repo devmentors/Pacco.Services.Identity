@@ -21,15 +21,18 @@ namespace Pacco.Services.Identity.Application.Services.Identity
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
         private readonly IJwtProvider _jwtProvider;
+        private readonly IRefreshTokenService _refreshTokenService;
         private readonly IMessageBroker _messageBroker;
         private readonly ILogger<IdentityService> _logger;
 
         public IdentityService(IUserRepository userRepository, IPasswordService passwordService,
-            IJwtProvider jwtProvider, IMessageBroker messageBroker, ILogger<IdentityService> logger)
+            IJwtProvider jwtProvider, IRefreshTokenService refreshTokenService,
+            IMessageBroker messageBroker, ILogger<IdentityService> logger)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
             _jwtProvider = jwtProvider;
+            _refreshTokenService = refreshTokenService;
             _messageBroker = messageBroker;
             _logger = logger;
         }
@@ -41,7 +44,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             return user is null ? null : new UserDto(user);
         }
 
-        public async Task<JwtDto> SignInAsync(SignIn command)
+        public async Task<AuthDto> SignInAsync(SignIn command)
         {
             if (!EmailRegex.IsMatch(command.Email))
             {
@@ -62,12 +65,13 @@ namespace Pacco.Services.Identity.Application.Services.Identity
                 throw new InvalidCredentialsException(command.Email);
             }
 
-            var token = _jwtProvider.Create(user.Id, user.Role);
+            var auth = _jwtProvider.Create(user.Id, user.Role);
+            auth.RefreshToken = await _refreshTokenService.CreateAsync(user.Id);
             
             _logger.LogInformation($"User with id: {user.Id} has been authenticated.");
             await _messageBroker.PublishAsync(new SignedIn(user.Id, user.Role));
 
-            return token;
+            return auth;
         }
 
         public async Task SignUpAsync(SignUp command)

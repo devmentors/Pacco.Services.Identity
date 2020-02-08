@@ -8,7 +8,7 @@ using Pacco.Services.Identity.Infrastructure.Mongo.Documents;
 
 namespace Pacco.Services.Identity.Infrastructure.Mongo.Queries.Handlers
 {
-    public class GetUserHandler : IQueryHandler<GetUser, UserDto>
+    internal sealed  class GetUserHandler : IQueryHandler<GetUser, UserDto>
     {
         private readonly IMongoRepository<UserDocument, Guid> _userRepository;
 

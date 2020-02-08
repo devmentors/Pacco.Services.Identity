@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Convey.Auth;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Services;
@@ -14,11 +15,12 @@ namespace Pacco.Services.Identity.Infrastructure.Auth
             _jwtHandler = jwtHandler;
         }
 
-        public JwtDto Create(Guid userId, string role)
+        public AuthDto Create(Guid userId, string role, string audience = null,
+            IDictionary<string, string> claims = null)
         {
-            var jwt = _jwtHandler.CreateToken(userId.ToString("N"), role);
+            var jwt = _jwtHandler.CreateToken(userId.ToString("N"), role, audience, claims);
 
-            return new JwtDto
+            return new AuthDto
             {
                 AccessToken = jwt.AccessToken,
                 Role = jwt.Role,

@@ -7,7 +7,7 @@ using Pacco.Services.Identity.Infrastructure.Mongo.Documents;
 
 namespace Pacco.Services.Identity.Infrastructure.Mongo.Repositories
 {
-    public class UserRepository : IUserRepository
+    internal sealed  class UserRepository : IUserRepository
     {
         private readonly IMongoRepository<UserDocument, Guid> _repository;
 

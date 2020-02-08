@@ -3,7 +3,7 @@ using Convey.Types;
 
 namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
 {
-    public class UserDocument : IIdentifiable<Guid>
+    internal sealed class UserDocument : IIdentifiable<Guid>
     {
         public Guid Id { get; set; }
         public string Email { get; set; }

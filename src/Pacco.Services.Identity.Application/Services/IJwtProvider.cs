@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Pacco.Services.Identity.Application.DTO;
 
 namespace Pacco.Services.Identity.Application.Services
 {
     public interface IJwtProvider
     {
-        JwtDto Create(Guid userId, string role);
+        AuthDto Create(Guid userId, string role, string audience = null, IDictionary<string, string> claims = null);
     }
 }
