@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Application.Exceptions;
@@ -40,7 +42,7 @@ namespace Pacco.Services.Identity.Application.Services.Identity
             {
                 throw new InvalidRefreshTokenException();
             }
-            
+
             token.Revoke(DateTime.UtcNow);
             await _refreshTokenRepository.UpdateAsync(token);
         }
@@ -64,7 +66,13 @@ namespace Pacco.Services.Identity.Application.Services.Identity
                 throw new UserNotFoundException(token.UserId);
             }
 
-            var auth = _jwtProvider.Create(token.UserId, user.Role);
+            var claims = user.Permissions.Any()
+                ? new Dictionary<string, IEnumerable<string>>
+                {
+                    ["permissions"] = user.Permissions
+                }
+                : null;
+            var auth = _jwtProvider.Create(token.UserId, user.Role, claims: claims);
             auth.RefreshToken = refreshToken;
 
             return auth;

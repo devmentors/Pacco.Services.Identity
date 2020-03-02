@@ -1,3 +1,4 @@
+using System.Linq;
 using Pacco.Services.Identity.Application.DTO;
 using Pacco.Services.Identity.Core.Entities;
 
@@ -6,7 +7,8 @@ namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
     internal static class Extensions
     {
         public static User AsEntity(this UserDocument document)
-            => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt);
+            => new User(document.Id, document.Email, document.Password, document.Role, document.CreatedAt,
+                document.Permissions);
 
         public static UserDocument AsDocument(this User entity)
             => new UserDocument
@@ -15,7 +17,8 @@ namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
                 Email = entity.Email,
                 Password = entity.Password,
                 Role = entity.Role,
-                CreatedAt = entity.CreatedAt
+                CreatedAt = entity.CreatedAt,
+                Permissions = entity.Permissions ?? Enumerable.Empty<string>()
             };
 
         public static UserDto AsDto(this UserDocument document)
@@ -24,7 +27,8 @@ namespace Pacco.Services.Identity.Infrastructure.Mongo.Documents
                 Id = document.Id,
                 Email = document.Email,
                 Role = document.Role,
-                CreatedAt = document.CreatedAt
+                CreatedAt = document.CreatedAt,
+                Permissions = document.Permissions ?? Enumerable.Empty<string>()
             };
 
         public static RefreshToken AsEntity(this RefreshTokenDocument document)

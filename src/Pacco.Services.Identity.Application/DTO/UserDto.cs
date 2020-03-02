@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Pacco.Services.Identity.Core.Entities;
 
 namespace Pacco.Services.Identity.Application.DTO
@@ -9,6 +10,7 @@ namespace Pacco.Services.Identity.Application.DTO
         public string Email { get; set; }
         public string Role { get; set; }
         public DateTime CreatedAt { get; set; }
+        public IEnumerable<string> Permissions { get; set; }
 
         public UserDto()
         {
@@ -20,6 +22,7 @@ namespace Pacco.Services.Identity.Application.DTO
             Email = user.Email;
             Role = user.Role;
             CreatedAt = user.CreatedAt;
+            Permissions = user.Permissions;
         }
     }
 }
