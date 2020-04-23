@@ -2,7 +2,7 @@ namespace Pacco.Services.Identity.Core.Exceptions
 {
     public class InvalidRoleException : DomainException
     {
-        public override string Code => "invalid_role";
+        public override string Code { get; } = "invalid_role";
         
         public InvalidRoleException(string role) : base($"Invalid role: {role}.")
         {
@@ -11,7 +11,7 @@ namespace Pacco.Services.Identity.Core.Exceptions
     
     public class EmptyRefreshTokenException : DomainException
     {
-        public override string Code => "empty_refresh_token";
+        public override string Code { get; } = "empty_refresh_token";
         
         public EmptyRefreshTokenException() : base("Empty refresh token.")
         {
