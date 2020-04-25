@@ -21,6 +21,7 @@
         <PackageReference Include="Convey.Metrics.AppMetrics" Version="0.4.*" />
         <PackageReference Include="Convey.Persistence.MongoDB" Version="0.4.*" />
         <PackageReference Include="Convey.Persistence.Redis" Version="0.4.*" />
+        <PackageReference Include="Convey.Security" Version="0.4.*" />
         <PackageReference Include="Convey.Tracing.Jaeger" Version="0.4.*" />
         <PackageReference Include="Convey.Tracing.Jaeger.RabbitMQ" Version="0.4.*" />
         <PackageReference Include="Convey.WebApi.CQRS" Version="0.4.*" />
