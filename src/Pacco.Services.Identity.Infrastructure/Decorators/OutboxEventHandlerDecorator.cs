@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Convey.CQRS.Events;
 using Convey.MessageBrokers;
 using Convey.MessageBrokers.Outbox;
+using Convey.Types;
 
 namespace Pacco.Services.Identity.Infrastructure.Decorators
 {
+    [Decorator]
     internal sealed class OutboxEventHandlerDecorator<TEvent> : IEventHandler<TEvent>
         where TEvent : class, IEvent
     {

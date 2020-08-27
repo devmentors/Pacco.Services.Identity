@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Convey.CQRS.Commands;
 using Convey.MessageBrokers;
 using Convey.MessageBrokers.Outbox;
+using Convey.Types;
 
 namespace Pacco.Services.Identity.Infrastructure.Decorators
 {
+    [Decorator]
     internal sealed class OutboxCommandHandlerDecorator<TCommand> : ICommandHandler<TCommand>
         where TCommand : class, ICommand
     {
